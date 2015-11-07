@@ -18,18 +18,18 @@ class HangpersonGame
  
   
   def guess(letter)
-      raise ArgumentError, 'Cannot be empty', caller if letter == ''
-      raise ArgumentError, "Letter only", caller unless letter =~ /[a-zA-Z]/
-      return false if @guesses.downcase.include?(letter.downcase)
-      return false if @wrong_guesses.downcase.include?(letter.downcase)
+      raise ArgumentError, 'Invalid guess: empty letter', caller if letter.nil? or letter.empty?
+      raise ArgumentError, "Invalid guess: letter only", caller unless letter =~ /[a-zA-Z]/
+      return false if @guesses.include?(letter.downcase)
+      return false if @wrong_guesses.include?(letter.downcase)
       
       if @word.downcase.include? letter.downcase
           @guesses += letter.downcase
           for i in 0..@word.length-1
-              @word_with_guesses[i] = letter if @word[i].downcase == letter.downcase
+              @word_with_guesses[i] = letter.downcase if @word[i].downcase == letter.downcase
           end
       else 
-          @wrong_guesses += letter 
+          @wrong_guesses += letter.downcase
       end
       return true
   end
