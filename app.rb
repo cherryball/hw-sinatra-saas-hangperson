@@ -25,11 +25,6 @@ class HangpersonApp < Sinatra::Base
     erb :new
   end
   
-  post '/new' do
-    "Hello Rerun"
-  end
-
-  
   post '/create' do
     # NOTE: don't change next line - it's needed by autograder!
     word = params[:word] || HangpersonGame.get_random_word
@@ -45,6 +40,11 @@ class HangpersonApp < Sinatra::Base
   post '/guess' do
     letter = params[:guess].to_s[0]
     ### YOUR CODE HERE ###
+    if @game.guesses.include? letter.downcase
+      flash[:message] = "You have already used that letter"
+    elsif !@game.guess(letter)
+      flash[:message] = "Invalid guess."
+    end
     redirect '/show'
   end
   
@@ -55,6 +55,12 @@ class HangpersonApp < Sinatra::Base
   # wrong_guesses and word_with_guesses from @game.
   get '/show' do
     ### YOUR CODE HERE ###
+    game_status = @game.check_win_or_lose()
+    if 'win' == game_status.to_s
+      redirect '/win'
+    elsif game_status.to_s == 'lose'
+       redirect '/lose'
+    end
     erb :show # You may change/remove this line
   end
   
