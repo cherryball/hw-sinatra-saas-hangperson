@@ -45,23 +45,35 @@ class HangpersonApp < Sinatra::Base
     letter = params[:guess].to_s[0]
     ### YOUR CODE HERE ###
     
-    if letter.nil? or letter.empty?
-      flash[:message] = "Empty input is invalid."
-      redirect '/show'
-    end 
+   # if letter.nil? or letter.empty?
+    #  flash[:message] = "Invalid guess."
+     # redirect '/show'
+    #end 
     
-    if @game.guess(letter)
-      if @game.guesses.include? letter.downcase
-          flash[:message] = "You have already used that letter."
-      end 
-    else 
-      flash[:message] = "Invalid guess #{letter}."
-    end
+  
+   #    if @game.guess(letter)
+     # if @game.guesses.downcase.include? letter.downcase
+      #    flash[:message] = "You have already used that letter."
+    #  end 
+    #else 
+     # flash[:message] = "Invalid guess."
+    #end
     
+ #   if @game.guesses.include? letter.downcase
+#flash[:message] = "You have already used that letter"
+#elsif !@game.guess(letter)
+#flash[:message] = "Invalid guess."
+#end
+
     begin
+        if !@game.guess(letter) 
+          flash[:message] = "You have already used that letter."
+        end 
         rescue ArgumentError
-            flash[:message] = "Invalid guess #{letter}"
+            flash[:message] = "Invalid guess."
     end   
+
+  
     redirect '/show'
   end
   

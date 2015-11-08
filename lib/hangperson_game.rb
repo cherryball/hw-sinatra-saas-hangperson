@@ -18,8 +18,8 @@ class HangpersonGame
  
   
   def guess(letter)
-      raise ArgumentError, 'Invalid guess: empty letter', caller if letter.nil? or letter.empty?
-      raise ArgumentError, "Invalid guess: letter only", caller unless letter =~ /[a-zA-Z]/
+      raise ArgumentError, 'Invalid guess: empty letter' if letter.nil? or letter.empty?
+      raise ArgumentError, "Invalid guess: letter only" unless letter =~ /[a-zA-Z]/
       return false if @guesses.include?(letter.downcase)
       return false if @wrong_guesses.include?(letter.downcase)
       
